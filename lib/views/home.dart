@@ -1,5 +1,6 @@
 import 'package:facebook/constant/data.dart';
 import 'package:facebook/theme/colors.dart';
+import 'package:facebook/views/details.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -14,6 +15,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: primary,
       body: getBody(),
     );
   }
@@ -77,56 +79,67 @@ class _HomeState extends State<Home> {
             SizedBox(height: 30),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Row(
-                  children: List.generate(userStories.length, (index) {
-                return Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: Container(
-                      width: 75,
-                      height: 75,
-                      child: Stack(
-                        children: <Widget>[
-                          Container(
-                            width: 75,
-                            height: 75,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border:
-                                    Border.all(width: 2, color: blue_story)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                width: 73,
-                                height: 73,
-                                decoration: BoxDecoration(
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => detail()));
+                },
+                child: Row(
+                    children: List.generate(userStories.length, (index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Container(
+                        width: 75,
+                        height: 75,
+                        child: Stack(
+                          children: <Widget>[
+                            Container(
+                              width: 75,
+                              height: 75,
+                              decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                          "https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"),
-                                      fit: BoxFit.cover),
+                                  border:
+                                      Border.all(width: 2, color: blue_story)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  width: 73,
+                                  height: 73,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        image: NetworkImage(
+                                            userStories[index]['img']),
+                                        fit: BoxFit.cover),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            bottom: 10,
-                            left: 9,
-                            child: Container(
-                                width: 15,
-                                height: 15,
-                                decoration: BoxDecoration(
-                                    color: online,
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      width: 3,
-                                      color: Colors.white,
-                                    ))),
-                          )
-                        ],
-                      )),
-                );
-              })),
-            )
+                            userStories[index]['online']
+                                ? Positioned(
+                                    bottom: 10,
+                                    left: 9,
+                                    child: Container(
+                                      width: 15,
+                                      height: 15,
+                                      decoration: BoxDecoration(
+                                        color: online,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          width: 3,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Container()
+                          ],
+                        )),
+                  );
+                })),
+              ),
+            ),
+            SizedBox(height: 30),
           ]),
     );
   }
